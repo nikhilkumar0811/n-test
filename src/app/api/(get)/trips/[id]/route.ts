@@ -3,7 +3,7 @@ import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 
 // GET a specific trip by ID
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const { rows } = await sql`SELECT * FROM trips WHERE id = ${id};`;
 
@@ -15,8 +15,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // DELETE a specific trip by ID
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-    const { id } = params;
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
     const { rowCount } = await sql`DELETE FROM trips WHERE id = ${id};`;
 
     if (rowCount === 0) {

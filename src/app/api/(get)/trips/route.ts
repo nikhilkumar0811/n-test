@@ -3,7 +3,7 @@ import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 
 // GET all trips
-export async function GET(request: NextRequest) {
+export async function GET() {
     const { rows } = await sql`SELECT * FROM trips;`;
     return NextResponse.json(rows);
 }
